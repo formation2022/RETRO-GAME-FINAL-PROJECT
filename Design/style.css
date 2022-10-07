@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Clear Sans Regular';
+    src: url('./ClearSans-Regular.ttf') format('truetype');
+}
+body{
+    font-family: Clear Sans Regular,arial, sans-serif;
+}
+h2{
+  border-bottom: #D917FA 2px solid;
+  background-color: #D917FA;
+}
+.grey {
+	color: #777;
+}

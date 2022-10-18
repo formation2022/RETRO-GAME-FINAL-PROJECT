@@ -11,7 +11,7 @@ if ((isset($_POST['email']) && isset($_POST['password'])) && (isset($_POST['admi
             $password             = htmlspecialchars($_POST['password']);
             // ADRESSE EMAIL VALIDE
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                header('location: ../src/dashboard.php?error=1&message=Votre adresse email est invalide.');
+                header('location: ../src/commun/dashboard.php?error=1&message=Votre adresse email est invalide.');
                 exit();
             }
             // HASH
@@ -28,14 +28,14 @@ if ((isset($_POST['email']) && isset($_POST['password'])) && (isset($_POST['admi
                 if ($password == $user["password"]) {
                     $_SESSION['connect'] = 1;
                     $_SESSION['email']   = $user['email'];
-                    header('location: ../src/dashboard.php?success=1');
+                    header('location: ../src/commun/dashboard.php?success=1');
                     exit();
                 } else {
                     header('location: ../src/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
                     exit();
                 }
             } else {
-                header('location: ../src/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
+                header('location: ../src/commun/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
                 exit();
             }
         }
@@ -47,7 +47,7 @@ if ((isset($_POST['email']) && isset($_POST['password'])) && (isset($_POST['admi
             $password             = htmlspecialchars($_POST['password']);
             // ADRESSE EMAIL VALIDE
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                header('location: ../src/dashboard.php?error=1&message=Votre adresse email est invalide.v');
+                header('location: ../src/commun/dashboard.php?error=1&message=Votre adresse email est invalide.v');
                 exit();
             }
             // HASH
@@ -68,22 +68,22 @@ if ((isset($_POST['email']) && isset($_POST['password'])) && (isset($_POST['admi
                         if ($password == $user['password']) {
                             $_SESSION['connect'] = 1;
                             $_SESSION['email']   = $user['email'];
-                            header('location: ../src/dashboard.php?success=1');
+                            header('location: ../src/commun/dashboard.php?success=1');
                             exit();
                         } else {
-                            header('location: ../src/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
+                            header('location: ../src/commun/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
                             exit();
                         }
                     } else {
-                        header('location: ../src/dashboard.php?error=1&message=Votre compte est bloqué pour le moment, contactez un administrateur.');
+                        header('location: ../src/commun/dashboard.php?error=1&message=Votre compte est bloqué pour le moment, contactez un administrateur.');
                         exit();
                     }
                 } else {
-                    header('location: ../src/dashboard.php?error=1&message=Vous devez être vendeur pour se connecter ici.');
+                    header('location: ../src/commun/dashboard.php?error=1&message=Vous devez être vendeur pour se connecter ici.');
                     exit();
                 }
             } else {
-                header('location: ../src/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
+                header('location: ../src/commun/dashboard.php?error=1&message=Impossible de vous authentifier correctement.');
                 exit();
             }
         }
@@ -104,7 +104,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
 
         // ADRESSE EMAIL VALIDE
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            header('location: ../src/dashboard.php?error=1&message=Votre adresse email est invalide.');
+            header('location: ../src/commun/dashboard.php?error=1&message=Votre adresse email est invalide.');
             exit();
         }
         if (isset($_POST['add'])) {
@@ -116,10 +116,10 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
 
             $req = $bdd->prepare("INSERT INTO users(nom,prenom,email, password,cle,role,isBlocked) VALUES(?,?,?,?,?,?,?)");
             if ($req->execute(array($nom, $prenom, $email, $password, $secret, 'Vendeur', $isblocked))) {
-                header('location: ../src/dashboard.php?success=2');
+                header('location: ../src/commun/dashboard.php?success=2');
                 exit();
             } else {
-                header('location: ../src/dashboard.php?error=1&message=Une erreur est survrnue pendant votre inscription.');
+                header('location: ../src/commun/dashboard.php?error=1&message=Une erreur est survrnue pendant votre inscription.');
                 exit();
             }
         } elseif (isset($_POST['update'])) {
@@ -138,7 +138,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
             $id = $_POST['num'];
             $req = $bdd->prepare("UPDATE users SET nom=?,prenom=?,email=?, password=?,isBlocked=? WHERE id=?");
             if ($req->execute(array($nom, $prenom, $email, $password, $isblocked, $id))) {
-                header('location: ../src/dashboard.php?success=2');
+                header('location: ../src/commun/dashboard.php?success=2');
                 exit();
             } else {
                 header('location: ../src/dashboard.php?error=1&message=Une erreur est survrnue pendant la mise à jour.');
@@ -148,15 +148,15 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
             $id = $_POST['num'];
             $req = $bdd->prepare("DELETE FROM users WHERE id=?");
             if ($req->execute(array($id))) {
-                header('location: ../src/dashboard.php?success=2');
+                header('location: ../src/commun/dashboard.php?success=2');
                 exit();
             } else {
-                header('location: ../src/dashboard.php?error=1&message=Une erreur est survrnue pendant la suppression.');
+                header('location: ../src/commun/dashboard.php?error=1&message=Une erreur est survrnue pendant la suppression.');
                 exit();
             }
         }
     } else {
-        header('location: ../src/dashboard.php?error=1&message=Vous devez reseigner tout les champs.');
+        header('location: ../src/commun/dashboard.php?error=1&message=Vous devez reseigner tout les champs.');
         exit();
     }
 }
@@ -279,7 +279,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
         <div class="px-3 py-2 text-bg-dark">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="../src/dashboard.php" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <a href="../src/commun/dashboard.php" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                         <img src="../img/retrogame.png" alt="retrogame" width="90" height="90" class="bi me-2 rounded-pill">
                     </a>
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -325,7 +325,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['nom']) 
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="../src/logout-admin.php">Log out</a></li>
+                                    <li><a class="dropdown-item" href="../src/commun/logout-admin.php">Log out</a></li>
                                 </ul>
                             </div>
                         </li>

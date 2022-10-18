@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 07, 2022 at 08:35 AM
+-- Generation Time: Oct 18, 2022 at 06:12 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -110,10 +110,22 @@ CREATE TABLE `panier` (
   `id` int(11) NOT NULL,
   `idProduit` int(11) NOT NULL,
   `quantite` int(11) DEFAULT '1',
-  `prix` decimal(10,0) NOT NULL,
+  `prix` decimal(10,2) NOT NULL,
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idClient` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `panier`
+--
+
+INSERT INTO `panier` (`id`, `idProduit`, `quantite`, `prix`, `create_date`, `idClient`) VALUES
+(45, 21, 1, '12.36', '2022-10-17 17:15:25', 8),
+(46, 22, 1, '74.95', '2022-10-17 17:42:44', 8),
+(47, 23, 1, '14.56', '2022-10-17 17:42:45', 8),
+(48, 24, 1, '1.95', '2022-10-17 17:42:46', 8),
+(49, 26, 1, '45.23', '2022-10-17 17:42:48', 8),
+(50, 25, 2, '30.99', '2022-10-17 17:42:50', 8);
 
 -- --------------------------------------------------------
 
@@ -125,26 +137,31 @@ CREATE TABLE `produits` (
   `id` int(11) NOT NULL,
   `libelle` varchar(50) NOT NULL,
   `description` text NOT NULL,
-  `plateforme` enum('PS1','PS2','PS3','PS4','PS5','PSP','PS VITA','XBOX X','XBOX ONE','XBOX 360','SWITCH','WII U','WII','3DS','DS','PC','RETRO') NOT NULL,
+  `plateforme` enum('PS1','PS2','PS3','PS4','PS5','PSP','PS-VITA','XBOX-X','XBOX-ONE','XBOX-360','SWITCH','WII-U','WII','3DS','DS','PC','RETRO') NOT NULL,
   `editeur` varchar(50) DEFAULT NULL,
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `stock` int(11) NOT NULL DEFAULT '0',
   `isDisponible` tinyint(1) NOT NULL DEFAULT '1',
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
-  `fabriquant` varchar(50) DEFAULT NULL,
+  `fabricant` varchar(50) DEFAULT NULL,
   `idGenre` int(11) NOT NULL,
   `idCategorie` int(11) NOT NULL,
   `prix` decimal(10,2) NOT NULL,
-  `image` varchar(250) NOT NULL
+  `image` varchar(250) NOT NULL,
+  `isSelected` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `produits`
 --
 
-INSERT INTO `produits` (`id`, `libelle`, `description`, `plateforme`, `editeur`, `create_date`, `stock`, `isDisponible`, `isActive`, `fabriquant`, `idGenre`, `idCategorie`, `prix`, `image`) VALUES
-(1, 'Fifa23', 'Toujours plus réaliste, plus précis et plus passionnant que jamais, Fifa 16 sur Xbox 360 fait entrer les équipes féminines sur le terrain.', 'PS1', 'Electronic Arts', '2022-10-04 15:55:37', 12, 1, 1, 'Electronic Arts', 1, 1, '99.45', 'Fifa23.jpg'),
-(2, 'pokemon-ultra-lune', 'Retournez sur les îles de Kalos dans Pokemon Ultra Soleil sur Nintendo 3DS. De nouvelles aventures vous attendent, avec de nouvelles formes de pokémons et de nouvelles attaques spéciales Z !', '3DS', 'Nintendo', '2022-10-06 20:19:48', 120, 1, 1, NULL, 2, 1, '25.96', 'pokemon-ultra-lune-e122333.jpg');
+INSERT INTO `produits` (`id`, `libelle`, `description`, `plateforme`, `editeur`, `create_date`, `stock`, `isDisponible`, `isActive`, `fabricant`, `idGenre`, `idCategorie`, `prix`, `image`, `isSelected`) VALUES
+(21, 'Fifa 23', 'FIFA 23', 'WII-U', 'azerty', '2022-10-14 15:10:29', 454, 1, 1, '', 1, 2, '12.36', 'Fifa23.jpg', 1),
+(22, 'Muv-Luv Alternative', 'Muv-Luv Alternative', 'PS-VITA', 'PQube', '2022-10-14 15:12:54', 120, 1, 1, '', 1, 1, '74.95', 'muv-luv-alternative-e155877.jpg', 1),
+(23, 'Super Mario Bros. 3', 'Super Mario Bros. 3', 'RETRO', 'Nintendo', '2022-10-14 15:58:46', 10, 1, 1, '', 1, 2, '14.56', 'super-mario-bros-3-eu-e107824.jpg', 1),
+(24, 'This is Football 2002 Platinum', 'This is Football 2002 Platinum', 'PS2', ' Playstati', '2022-10-14 16:03:29', 45, 1, 1, '', 5, 1, '1.95', 'this-is-football-2002-plat-e178603.jpg', 1),
+(25, 'Manette Spider-Man', 'Manette Spider-Man', 'PS2', 'Manette Sp', '2022-10-14 16:06:26', 2, 1, 1, 'Manette Spider-Man', 1, 3, '30.99', 'ps2-manette-spiderman-e160258.jpg', 1),
+(26, 'Mario brush', 'ertertert', 'PS5', 'etttet', '2022-10-17 14:16:16', 445, 1, 1, '', 5, 3, '45.23', 'mario_carte.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -182,20 +199,19 @@ CREATE TABLE `users` (
   `password` varchar(50) NOT NULL,
   `cle` text NOT NULL,
   `role` enum('Client','Vendeur') NOT NULL,
-  `isBlocked` tinyint(1) NOT NULL DEFAULT '0'
+  `isBlocked` tinyint(1) NOT NULL DEFAULT '0',
+  `profilImage` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `password`, `cle`, `role`, `isBlocked`) VALUES
-(1, 'rachid', 'rachid', 'rachid.abbou@gmail.com', 'aq1601f1889667efaebb33b8c12572835da3f027f7825', 'd46ada7b54fbc1677743693ec8819193573c23bb1664883482', 'Client', 0),
-(2, 'rachid', 'rachid', 'auteur3@gmail.com', 'aq116ebc405f841bd16d7cc29e2c83a055196da403325', '663bcf3fb2d415d7763b5e81dcc3b75cd9f77f211664883874', 'Client', 0),
-(3, 'abbou', 'rachid', 'rachid.abbou@gmail.com', 'aq116ebc405f841bd16d7cc29e2c83a055196da403325', '8e062616d9a3cb70798ab95f29d3c8350cfe413c1665055864', 'Vendeur', 0),
-(4, 'ra', 'ra', 'ra@ra.com', 'aq116ebc405f841bd16d7cc29e2c83a055196da403325', '936973dba83029b2689139509afe87318f62014f1665056216', 'Vendeur', 1),
-(6, 'zavata', 'dfdf', 'rrr@gmail.com', 'aq1c7b1eda25a16eeda205878bfc502c48c9e72d11c25', 'ef8aea9f32722d1cbb66ad729a12c2e01687a8091665056983', 'Vendeur', 1),
-(7, 'sdsdsds', 'sdsdsd', 'rachid.abbou@gmail.com', 'aq11ab634afefdb407a6d03f72ee69f0f724e0f60c725', '4715f00ed7fa957b1992cbbef9b0a864605bd8be1665057070', 'Vendeur', 1);
+INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `password`, `cle`, `role`, `isBlocked`, `profilImage`) VALUES
+(8, 'rachid', 'rachid', 'rachid.abbou@gmail.com', 'aq116ebc405f841bd16d7cc29e2c83a055196da403325', '66f611432b50f7d3a4dcd540aa7c55c2d67e27271665406270', 'Client', 0, 'profil_1.jpg'),
+(10, 'test', 'test', 'test@google.fr', 'aq17288edd0fc3ffcbe93a0cf06e3568e28521687bc25', 'b835fd27b1e7782d1f5346b21d8c226f5e69eeb31665512289', 'Client', 0, 'profil_2.jpg'),
+(11, 'vendeur', 'vendeur', 'vendeur@gmail.com', 'aq110d8a5fbb3ea35add960d0602bc5f6b3eb162fc225', '99ae0e2f2511082550a840d24e9a458f4f6844fb1665564464', 'Vendeur', 0, NULL),
+(15, 'abbou', 'rachid', 'rachid.abbou@gmail.com', 'aq116ebc405f841bd16d7cc29e2c83a055196da403325', '9a2912bce0ca2cec8f51ab7ed3aacdc9b42425e31665833417', 'Vendeur', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -281,13 +297,13 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `produits`
 --
 ALTER TABLE `produits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `sadmin`
@@ -299,7 +315,7 @@ ALTER TABLE `sadmin`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

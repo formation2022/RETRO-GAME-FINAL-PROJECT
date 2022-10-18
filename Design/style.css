@@ -1,14 +1,32 @@
 @font-face {
-    font-family: 'Clear Sans Regular';
-    src: url('./ClearSans-Regular.ttf') format('truetype');
+  font-family: "Clear Sans Regular";
+  src: url("./ClearSans-Regular.ttf") format("truetype");
 }
-body{
-    font-family: Clear Sans Regular,arial, sans-serif;
+body {
+  font-family: Clear Sans Regular, arial, sans-serif;
 }
-h2{
-  border-bottom: #D917FA 2px solid;
-  background-color: #D917FA;
+h2 {
+  border-bottom: #d917fa 2px solid;
+  background-color: #d917fa;
 }
 .grey {
-	color: #777;
+  color: #777;
+}
+.bg-img {
+  width: 287px;
+  height: 282px;
+  background: lightblue;
+  background: radial-gradient(white 30%, lightblue 70%);
+}
+.bg-img img {
+  width: 240px;
+  height: 265px;
+}
+.titre{
+  height: 50px;
+}
+.fa-star,
+.fa-star-half {
+  color: rgb(251, 218, 5);
+  padding: 3% 0;
 }
